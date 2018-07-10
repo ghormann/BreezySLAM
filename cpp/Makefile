@@ -16,7 +16,10 @@
 #  along with this code.  If not, see <http:#www.gnu.org/licenses/>.
 
 # Where you want to put the library
-LIBDIR = /usr/local/lib
+BASE_INSTALL_DIR  = /opt/BreezySlam
+LIB_INSTALL_DIR   = $(BASE_INSTALL_DIR)/lib
+HEAD_INSTALL_DIR  = $(BASE_INSTALL_DIR)/include
+
 
 # Set library extension based on OS
 ifeq ("$(shell uname)","Darwin")
@@ -76,7 +79,11 @@ ziggurat.o: ../c/ziggurat.c
 	gcc -O3 -c -Wall $(CFLAGS) ../c/ziggurat.c
 	
 install: libbreezyslam.$(LIBEXT)
-	cp libbreezyslam.$(LIBEXT) $(LIBDIR)
+	mkdir -p $(LIB_INSTALL_DIR)
+	mkdir -p $(HEAD_INSTALL_DIR)
+	cp libbreezyslam.$(LIBEXT) $(LIB_INSTALL_DIR)
+	cp *.hpp $(HEAD_INSTALL_DIR)
+	cp ../c/*.h $(HEAD_INSTALL_DIR)
 	
 doc:
 	doxygen
